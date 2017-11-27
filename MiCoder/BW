@@ -1,0 +1,19 @@
+MiCoder Tools
+
+MiCO编译和调试系统必须的工具软件包。包括以下功能：
+
+Openocd调试工具
+arm-none-eabi交叉编译器
+在Openocd下使用JLink的驱动程序
+编译系统必要的主机端命令
+MiCoder Tools下载地址：
+
+MiCoder Tools for Windows
+MiCoder Tools for macOS
+MiCoder Tools for Linux
+下载并解压缩即可，在MiCO Cube的安装过程中，需要使用mico config micoder -G [PATH]命令设置MiCoder Tools的路径。
+
+
+这个就是linux版的
+
+
