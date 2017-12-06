@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>设备</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/fog2.0-v0.0.1.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+    <style>
+    body {
+        background-color: #f8f9fb;
+        font-size: 12px;
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="refresh_btn-box" onclick="getDevList()">
+            <div>点击刷新页面</div>
+        </div>
+        <ul id="devlist-ul-id">
+            <li v-for="item in items" v-if='isshow'>
+                <div class="dev-light-box">
+                    <div class="dev-light-click" v-on:click="toInfoPage" devidtag="{{item.device_id}}">
+                        <div><img class="dev-light" src="../image/baking_btn_light_on.png" alt=""></div>
+                        <div class="dev-light-content"><span>{{item.device_name}}</span></div>
+                    </div>
+                    <div class="dev-light-switch" v-if="item.isonline">
+                        <div class="mui-switch mui-active">
+                            <div class="mui-switch-handle"></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js"></script>
+<script type="text/javascript" src="../script/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="../script/mui.min.js"></script>
+<script type="text/javascript" src="../script/fog2.0-v1.0.js"></script>
+<script>
+var fog2 = null;
+apiready = function() {
+    fog2 = api.require('fog2');
+    getDevList();
+}
+
+mui('.mui-switch').each(function() { //循环所有toggle
+    /**
+     * toggle 事件监听
+     */
+    this.addEventListener('toggle', function(event) {
+    });
+});
+
+var example1 = new Vue({
+    el: '#devlist-ul-id',
+    data: {
+        items: [],
+        isshow: true
+    },
+    methods: {
+        toInfoPage: function() {
+            api.openWin({
+                name: 'deviceinfo',
+                url: './deviceinfo.html',
+                delay: 200,
+                pageParam: {
+                    deviceid: this.items[0].device_id,
+                    devicename: this.items[0].device_name
+                }
+            });
+        }
+    }
+})
+
+function getDevList() {
+    //TODO chrome测试
+    // console.log('getDevList')
+    // Apicloud接口
+    var param = {
+        token: $api.getStorage(_TOKEN)
+    };
+    fog2.getDeviceList(param, function(ret, err) {
+        // console.log('ret = ', JSON.stringify(ret))
+        if (ret) {
+            var data = new Array();　 //创建一个数组
+            $.each(ret.data, function(n, value) {
+                data.push({
+                    device_name: value.device_name,
+                    device_id: value.device_id,
+                    isonline: value.online
+                });
+            });
+            example1.items = data;
+        } else {
+        }
+    });
+}
+</script>
+
+</html>

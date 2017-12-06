@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+</head>
+
+<body>
+</body>
+<script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript" src="./script/fog2.0-v1.0.js"></script>
+<script type="text/javascript">
+var fog2;
+const host = {
+    host: "https://v2.fogcloud.io"
+};
+apiready = function() {
+    //TODO chrome测试
+//  var chromeDebug = api.require('chromeDebug');
+//  chromeDebug.openDebug(function(ret, err) {
+//  });
+
+
+    fog2 = api.require('fog2');
+    fog2.init(host);
+    alert("初始化完成");
+    if (typeof($api.getStorage(_TOKEN)) != "undefined") {
+        freshtoken($api.getStorage(_TOKEN));
+    } else {
+        api.openWin({
+            name: 'login',
+            url: 'html/login.html'
+        });
+    }
+};
+
+function freshtoken(token) {
+    var param = {
+        token: token
+    };
+    fog2.refreshToken(param, function(ret, err) {
+        if (ret) {
+            if ("meta" in ret) {
+                if (23010 == ret.meta.code) {
+                    api.openWin({
+                        name: 'login',
+                        url: 'html/login.html'
+                    });
+                }
+            } else {
+                $api.setStorage(_TOKEN, ret.token);
+                $api.setStorage(_CLIENTID, ret.clientid);
+                api.openWin({
+                    name: 'frameindex',
+                    url: 'html/frameindex.html'
+                });
+            }
+            api.closeWin({
+                name:'index'
+            });
+        }
+    });
+}
+</script>
+
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>register</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/fog2.0-v0.0.1.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+</head>
+<style>
+body {
+    background-color: #ffffff;
+}
+
+.setpassword_cls {
+    display: none;
+}
+
+#vercode_id {
+    border: 1px solid #ffffff;
+    /*width: 65%;*/
+    margin-bottom: 0px;
+}
+
+.input-group-addon {
+    margin-bottom: 0px;
+    padding: 10px 15px;
+}
+</style>
+
+<body>
+    <header>
+        <div class="header-box">
+            <div class="header-right header-center">店老大</div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="getvercode_cls">
+            <div class="input-group">
+                <div class="mui-input-row">
+                    <label>用户名</label>
+                    <input type="text" class="mui-input-clear" id="login_name_id" placeholder="邮箱/手机">
+                </div>
+            </div>
+            <span class="cut-off-line">&nbsp;</span>
+            <div class="input-group">
+                <div class="vercode-box">
+                    <div style="-webkit-box-flex: 1;">
+                        <input type="number" class="form-control" id='vercode_id' placeholder="验证码">
+                    </div>
+                    <div>
+                        <span class="input-group-addon" id="basic-addon2" onclick="getVerifyCode()">获取验证码</span>
+                    </div>
+                </div>
+            </div>
+            <span class="cut-off-line">&nbsp;</span>
+            <div class="mui-button-row">
+                <div class="btn-box" onclick="checkVerifyCode()">
+                    <span>验证验证码</span>
+                </div>
+            </div>
+        </div>
+        <div class="setpassword_cls">
+            <div class="input-group">
+                <div class="mui-input-row">
+                    <label>输入密码</label>
+                    <input type="text" class="mui-input-clear" id="password1_id" placeholder="输入密码">
+                </div>
+                <span class="cut-off-line">&nbsp;</span>
+            </div>
+            <div class="input-group">
+                <div class="mui-input-row">
+                    <label>确认密码</label>
+                    <input type="text" class="mui-input-clear" id="password2_id" placeholder="确认密码">
+                </div>
+            </div>
+            <span class="cut-off-line">&nbsp;</span>
+            <div class="mui-button-row">
+                <div class="btn-box" onclick="setpassword()">
+                    <span>完成注册</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="../script/mui.min.js"></script>
+<script type="text/javascript" src="../script/fog2.0-v1.0.js"></script>
+<script type="text/javascript">
+var fog2 = null;
+
+apiready = function() {
+    $api.fixStatusBar($api.dom('header'));
+    listenKeyback();
+    fog2 = api.require('fog2');
+}
+
+function listenKeyback() {
+    api.addEventListener({
+        name: 'keyback'
+    }, function(ret, err) {
+        //关闭当前window
+        api.closeWin({
+            "name": "getvercode"
+        });
+    });
+}
+
+function getVerifyCode() {
+    var loginname = $('#login_name_id').val();
+    var param = {
+        loginname: loginname,
+        appid: _APPID
+    };
+    fog2.getVerifyCode(param, function(ret, err) {
+        if (ret) {
+            // 看看是否存在token，存在则说明登录成功
+            if (getMetaMessage(ret)) {
+                toast(getMetaMessage(ret));
+            }
+        } else {
+            // 一般是参数为空
+            toast(err.message);
+        }
+    });
+}
+
+function checkVerifyCode() {
+
+    var loginname = $('#login_name_id').val();
+    var vercode = $('#vercode_id').val();
+    var param = {
+        loginname: loginname,
+        vercode: vercode,
+        appid: _APPID
+    };
+    fog2.checkVerifyCode(param, function(ret, err) {
+        if (ret) {
+            // 看看是否存在token，存在则说明登录成功
+            if (ret.token) {
+                $('.getvercode_cls').css("display", 'none');
+                $('.setpassword_cls').css("display", 'block');
+                $api.setStorage(_TOKEN, ret.token);
+                $api.setStorage(_CLIENTID, ret.clientid);
+            } else if (getMetaMessage(ret)) {
+                toast(getMetaMessage(ret));
+            }
+        } else {
+            // 一般是参数为空
+            toast(err.message);
+        }
+    });
+}
+
+function setpassword() {
+    var password1_val = $('#password1_id').val();
+    var password2_val = $('#password2_id').val();
+    if (password2_val == password1_val) {
+        var param = {
+            password: password2_val,
+            token: $api.getStorage(_TOKEN)
+        };
+        fog2.setPassword(param, function(ret, err) {
+            if (ret) {
+                // 看看是否存在token，存在则说明登录成功
+                if (0 == getMetaCode(ret)) {
+                    api.openWin({
+                        name: 'frameindex',
+                        url: 'frameindex.html'
+                    });
+                }
+                toast(getMetaMessage(ret));
+            } else {
+                // 一般是参数为空
+                toast(err.message);
+            }
+        });
+    }else{
+        toast("密码输入不正确");
+    }
+}
+</script>
+
+</html>

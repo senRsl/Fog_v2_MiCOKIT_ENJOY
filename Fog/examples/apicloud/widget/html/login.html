@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>login</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/fog2.0-v0.0.1.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+</head>
+<style>
+body {
+    background-color: #ffffff;
+}
+</style>
+<body>
+    <header>
+        <div class="header-box">
+            <div class="header-right header-center">店老大</div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="mui-input-row">
+            <label>用户名</label>
+            <input type="text" class="mui-input-clear" id="login_name_id" placeholder="邮箱/手机" value="88635653@qq.com">
+        </div>
+        <span class="cut-off-line">&nbsp;</span>
+        <div class="mui-input-row">
+            <label>密码</label>
+            <input type="text" class="mui-input-clear" id="password_id" placeholder="密码" value="123456">
+        </div>
+        <span class="cut-off-line">&nbsp;</span>
+        <div class="mui-button-row">
+            <div class="btn-box" onclick="login()">
+                <span>确认</span>
+            </div>
+        </div>
+        <div class="btn-register" onclick="togetvercode()">
+            <span>还没有账号</span>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="../script/mui.min.js"></script>
+<script type="text/javascript" src="../script/fog2.0-v1.0.js"></script>
+<script type="text/javascript">
+var fog2 = null;
+
+apiready = function() {
+    $api.fixStatusBar($api.dom('header'));
+    fog2 = api.require('fog2');
+    listenKeyback();
+}
+
+function login() {
+    var loginname = $('#login_name_id').val();
+    var password = $('#password_id').val();
+    var param = {
+        loginname: loginname,
+        password: password,
+        appid: _APPID
+    };
+    fog2.login(param, function(ret, err) {
+        if (ret) {
+            // 看看是否存在token，存在则说明登录成功
+            if (ret.token) {
+                tohomepage(ret.token);
+                $api.setStorage(_CLIENTID, ret.clientid);
+            } else {
+                toast(ret.non_field_errors);
+            }
+        } else {
+            // 一般是参数为空
+            toast(err.message);
+        }
+    });
+}
+
+function togetvercode() {
+    api.openWin({
+        name: 'getvercode',
+        url: './getvercode.html'
+    });
+}
+
+function tohomepage(token) {
+    $api.setStorage(_TOKEN, token);
+    api.openWin({
+        name: 'frameindex',
+        url: 'frameindex.html'
+    });
+}
+</script>
+
+</html>

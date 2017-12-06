@@ -1,0 +1,276 @@
+.header-title-box {
+    display: -webkit-box;
+    padding: 0 10px;
+}
+
+.header-title-name {
+    -webkit-box-flex: 1;
+}
+
+..header-title-box div span {
+    width: 30px;
+}
+
+.title-box {
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px 0px;
+    font-weight: bold;
+    background-color: #1ca0f1;
+    margin-top: 0px;
+    height: 50px;
+}
+
+.cut-off-line {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    height: 10px;
+    margin-bottom: 10px;
+}
+
+.title-name {
+    font-size: 20px;
+    margin-top: 22px;
+}
+
+.container {
+    margin-top: 15px;
+}
+
+.col-sm-10 {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn {
+    margin: 0px 20px;
+    padding: 8px 30px;
+}
+
+.btn-success {
+    background-color: #1ca0f1;
+    border-color: #1ca0f1;
+}
+
+.form-control {
+    height: 46px;
+}
+
+
+/*it's ok*/
+
+.mui-button-row {
+    padding: 0px 16px;
+}
+
+.btn-box {
+    height: 40px;
+    background-color: #1ca0f1;
+    margin-top: 15px;
+    padding: 10px 0px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.btn-register {
+    text-align: center;
+    padding: 20px;
+    color: #8B8989;
+    font-size: 14px;
+}
+
+
+/*获取验证码*/
+
+.vercode-box {
+    display: -webkit-box;
+    justify-content: center;
+}
+
+
+/*data页面*/
+
+.conten-box {
+    display: -webkit-box;
+    padding: 8px 10px 0px 10px;
+    font-size: 14px;
+}
+
+.content-title-child {
+    -webkit-box-flex: 1;
+    text-align: right;
+    font-size: 12px;
+    color: #837b86;
+}
+
+.user-box {
+    -webkit-box-flex: 1;
+}
+
+.user-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 30px;
+    border: 1px solid #1ca0f1;
+    padding: 3px;
+    background-color: #fff;
+}
+
+.user-container {
+    display: -webkit-box;
+    justify-content: center;
+    padding: 10px 10px 6px 10px;
+    background-color: #fff;
+    text-align: center;
+    margin: 6px 0px;
+}
+
+.user-info-box {
+    width: 100px;
+}
+
+.user-time-axis-list {
+    -webkit-box-flex: 1;
+    color: #1ca0f1;
+    font-size: 10px;
+    text-align: left;
+}
+
+.user-e-box {
+    padding: 0px 0px 4px 0px;
+}
+
+.user-emoji {
+    font-size: 12px;
+    padding-right: 8px;
+}
+
+
+/*设备*/
+
+.dev-light-box {
+    display: -webkit-box;
+    justify-content: center;
+    padding: 12px 10px;
+    background-color: #ffffff;
+    border-bottom: 1px dashed #ccc;
+}
+
+.dev-light {
+    width: 34px;
+}
+
+.dev-light-click {
+    display: -webkit-box;
+    justify-content: center;
+    -webkit-box-flex: 1;
+}
+
+.dev-light-content {
+    -webkit-box-flex: 1;
+    font-size: 14px;
+    padding: 8px;
+}
+
+.dev-light-switch {
+    padding-top: 4px;
+}
+
+.offline-none {
+    display: none;
+}
+
+.offline-gray {
+    color: #ddd;
+}
+
+.offline-img {}
+
+header {
+    /*padding-top: 25px;*/
+    background-color: #1ca0f1;
+}
+
+.header-box {
+/*    display: -webkit-box;
+    padding: 15px 10px;
+    justify-content: center;*/
+    display: -webkit-box;
+    padding: 15px 10px;
+    justify-content: center;
+    background-color: #1ca0f1;
+    margin-top: 24px;
+}
+
+.header-left,
+.header-left img {
+    height: 20px;
+}
+
+.header-center {
+    -webkit-box-flex: 1;
+}
+
+.header-right {
+    height: 20px;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+}
+
+.delete-device {
+    background-color: #f0ad4e;
+}
+
+
+/*设备列表*/
+
+.refresh_btn-box {
+    padding: 10px 16px;
+}
+.refresh_btn-box div{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #4cd964;
+    color: #fff;
+    border-radius: 5px;
+}
+
+/*添加设备*/
+.header-add-dev{
+    font-size: 14px;
+}
+
+/*控制设备*/
+.ctrl-dev-box{
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed #ccc;
+}
+.ctrl-dev-title{
+    text-align:center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #666565;
+}
+.ctrl-btn-twobox{
+    /*display: flex;*/
+    display: none;
+}
+.ctrl-btn-box{
+    height: 40px;
+  background-color: #1ca0f1;
+  padding: 10px 0px;
+  color: #fff;
+  font-size: 16px;
+  flex: 1;
+  margin: 8px 10px;
+}
+.ctrl-log-cls{
+    padding: 20px 10px;
+}
+.user-manage-box{
+    display: flex;
+}

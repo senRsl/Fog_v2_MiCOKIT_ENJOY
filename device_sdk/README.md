@@ -1,4 +1,9 @@
-﻿# FOG2.0 设备端SDK使用说明
+﻿# 这个是旧版SDK使用的,后面的版本直接import了.....
+# 旧版的SDK这个垃圾公司也不提供了.....
+
+device_sdk：MiCO 设备端应用程序源码，和 连接 FogCloud 的库组件；
+
+# FOG2.0 设备端SDK使用说明
 
 `设备端SDK`   `MiCOSDK中间件`
 

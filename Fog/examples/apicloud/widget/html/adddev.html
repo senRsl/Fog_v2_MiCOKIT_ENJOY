@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>添加设备</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/fog2.0-v0.0.1.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+    <style>
+    body {
+        background-color: #fff;
+        font-size: 14px;
+        line-height: 21px;
+    }
+    
+    .dev-container {
+        text-align: center;
+        padding-top: 20px;
+    }
+    
+    .dev-img-box {
+        margin-top: 20%;
+    }
+    
+    .dev-img-box img {
+        width: 120px;
+    }
+    
+    .easylink {
+        /*margin-top: 20%;*/
+    }
+    
+    header {
+        padding-top: 0px;
+        position: fixed;
+        width: 100%;
+        top: 22px;
+    }
+    
+    .add {
+        display: none;
+    }
+    
+    .mDNS-box {
+        margin-top: 20px;
+    }
+    
+    .dev-light-box {
+        border-top: 1px dashed #ccc;
+        border-bottom: none;
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="header-box">
+            <div class="header-left"><img src="../image/back_return.png"></div>
+            <div class="header-right header-center">添加设备</div>
+        </div>
+    </div>
+    <div class="dev-container add">
+        <div class="dev-img-box"><img class="add-device-id" src="../image/add_device.png" alt=""></div>
+        <div class="dev-img-box"><img class="add-scan-id" src="../image/mydevice_scan.png" alt=""></div>
+    </div>
+    <div class="dev-container easylink">
+        <div class="mui-input-row">
+            <label>SSID</label>
+            <input type="text" class="mui-input-clear" id="ssid_id" placeholder="wifi">
+        </div>
+        <span class="cut-off-line">&nbsp;</span>
+        <div class="mui-input-row">
+            <label>密码</label>
+            <input type="text" class="mui-input-clear" id="psw_id" placeholder="密码">
+        </div>
+        <span class="cut-off-line">&nbsp;</span>
+        <div class="mui-button-row">
+            <div class="btn-box" tag="start" id="easylinkbtn">
+                <span>开始配网</span>
+            </div>
+            <div class="btn-box" tag="start" id="mdnsbtn">
+                <span>开始搜索</span>
+            </div>
+        </div>
+    </div>
+    <div class="mDNS-box">
+        <ul id="mdns-ul-id">
+            <li v-for="item in items" v-if='isshow'>
+                <div class="dev-light-box" v-on:click="bindDevice(($index))" iptag="{{item.IP}}">
+                    <div class="dev-light-click">
+                        <div><img class="dev-light" src="../image/baking_btn_light_on.png" alt=""></div>
+                        <div class="dev-light-content"><span>{{item.Name}} {{item.isHaveSuperUser}}</span></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js"></script>
+<script type="text/javascript" src="../script/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="../script/fog2.0-v1.0.js"></script>
+<script>
+
+var fog2 = null;
+apiready = function() {
+    fog2 = api.require('fog2');
+    getNowSsid();
+}
+
+$('.header-left').click(function() {
+    api.closeWin();
+});
+
+$('.add-device-id').click(function() {
+});
+
+$('.add-scan-id').click(function() {
+});
+
+function getNowSsid() {
+    fog2.getSSID(function(ret, err) {
+        if (ret)
+            $('#ssid_id').val(ret.ssid);
+    });
+}
+
+$('#easylinkbtn').click(function() {
+    var tag = $(this).attr('tag');
+    if ("start" == tag) {
+        $(this).text('停止配网');
+        $(this).attr("tag", "stop").css("background-color", "#f35d4f");
+        startEasylink();
+    } else {
+        $(this).text('开始配网');
+        $(this).attr("tag", "start").css("background-color", "#1ca0f1");
+        stopEasylink();
+    }
+});
+
+$('#mdnsbtn').click(function() {
+    var tag = $(this).attr('tag');
+    if ("start" == tag) {
+        $(this).text('停止搜索');
+        $(this).attr("tag", "stop").css("background-color", "#f35d4f");
+        startSearchDevices();
+    } else {
+        $(this).text('开始搜索');
+        $(this).attr("tag", "start").css("background-color", "#1ca0f1");
+        stopSearchDevices();
+    }
+});
+
+function startEasylink() {
+    var ssid_val = $('#ssid_id').val();
+    var psw_val = $('#psw_id').val();
+
+    var param = {
+        ssid: ssid_val,
+        password: psw_val,
+        sleeptime: 10,
+        extraData: '036',
+        runSecond: 40000
+    };
+    fog2.startEasyLink(param, function(ret, err) {
+        if (ret) {
+            toast(ret.message);
+        } else {
+            toast(err.message);
+        }
+    });
+}
+
+function stopEasylink() {
+    fog2.stopEasyLink(function(ret, err) {
+        if (ret) {
+            toast(ret.message);
+        } else {
+            toast(err.message);
+        }
+    });
+}
+
+
+var mdnsexample = new Vue({
+    el: '#mdns-ul-id',
+    data: {
+        items: [],
+        isshow: true
+    },
+    methods: {
+        bindDevice: function(index) {
+            window.tthis = this;
+            var ip = this.items[index].IP;
+            var port = "8002";
+            var param = {
+                ip: ip,
+                port: port,
+                token: $api.getStorage(_TOKEN)
+            };
+            fog2.bindDevice(param, function(ret, err) {
+                if (ret) {
+                    toast(JSON.stringify(ret));
+                } else {
+                    toast(JSON.stringify(err));
+                }
+            });
+        }
+    }
+})
+
+function startSearchDevices() {
+    fog2.startSearchDevices(function(ret, err) {
+        if (ret) {
+            var data = new Array();　 //创建一个数组
+            $.each(ret.devices, function(n, value) {
+                var isHaveSuperUser = value.IsHaveSuperUser == "false" ? "未绑定" : "已绑定";
+                data.push({
+                    IP: value.IP,
+                    Name: value.Name,
+                    isHaveSuperUser: isHaveSuperUser
+                });
+            });
+            mdnsexample.items = data;
+        }
+    });
+}
+
+function stopSearchDevices() {
+    fog2.stopSearchDevices(function(ret, err) {
+    });
+}
+</script>
+
+</html>

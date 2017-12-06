@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>设备详情</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/fog2.0-v0.0.1.css" />
+    <link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+    <style>
+    body {
+        background-color: #f8f9fb;
+        font-size: 14px;
+        line-height: 21px;
+    }
+    
+    .container {
+        margin-top: 0px;
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="header-box">
+            <div class="header-left"><img src="../image/back_return.png"></div>
+            <div class="header-right header-center">设备管理</div>
+        </div>
+    </div>
+    <div class="container">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell" onclick="getShareVerCode()">
+                <a class="mui-navigate-right">
+                    <span class="mui-badge mui-badge-danger" id="device_name">设备</span>名称
+                </a>
+            </li>
+            <li class="mui-table-view-cell" onclick="addDeviceVercode()">
+                <a class="mui-navigate-right">
+                    <span class="mui-badge mui-badge-warning" id="isonlineorid">离线</span>是否在线
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="mui-button-row">
+        <div class="btn-box delete-device" onclick="unbindDevice()">
+            <span>删除网络配置</span>
+        </div>
+    </div>
+    <div class="ctrl-dev-box">
+        <div class="ctrl-dev-title">控制远端设备</div>
+        <div class="mui-button-row">
+            <div class="ctrl-btn-box" tag="start" id="startListenDevice_id">
+                <span>连接设备</span>
+            </div>
+            <div class="ctrl-btn-twobox">
+                <div class="ctrl-btn-box" tag="start" id="addDeviceListener_id">
+                    <span>增加订阅</span>
+                </div>
+                <div class="ctrl-btn-box" tag="start" id="sendCommand_id">
+                    <span>发送指令</span>
+                </div>
+            </div>
+            <!-- <div class="ctrl-btn-twobox">
+                <div class="ctrl-btn-box" tag="start" id="createScheduleTask_id">
+                    <span>定时任务</span>
+                </div>
+                <div class="ctrl-btn-box" tag="start" id="createDelayTask_id">
+                    <span>延时任务</span>
+                </div>
+            </div>
+            <div class="ctrl-btn-twobox">
+                <div class="ctrl-btn-box" tag="start" id="getTaskList_id">
+                    <span>任务列表</span>
+                </div>
+                <div class="ctrl-btn-box" tag="start" id="removeTask_id">
+                    <span>移除任务</span>
+                </div>
+            </div>
+            <div class="ctrl-btn-twobox">
+                <div class="ctrl-btn-box" tag="start" id="updateScheduleTask_id">
+                    <span>更新定时任务</span>
+                </div>
+                <div class="ctrl-btn-box" tag="start" id="updateDelayTask_id">
+                    <span>更新延时任务</span>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="ctrl-dev-box">
+        <div class="ctrl-dev-title">用户管理</div>
+        <div class="mui-button-row">
+            <div class="user-manage-box">
+                <div class="ctrl-btn-box" tag="start" id="getMemberList_id">
+                    <span>用户列表</span>
+                </div>
+                <div class="ctrl-btn-box" tag="start" id="removeBindRole_id">
+                    <span>移除用户</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ctrl-log-cls">
+        <span id="mqttmessageid">{{message}}</span>
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue.js"></script>
+<script type="text/javascript" src="../script/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="../script/fog2.0-v1.0.js"></script>
+<script type="text/javascript">
+var deviceid, bindvercode, devicepw;
+var fog2 = null;
+apiready = function() {
+    $api.fixStatusBar($api.dom('header'));
+    deviceid = api.pageParam.deviceid;
+
+    $("#device_name").text(api.pageParam.devicename);
+
+    // apicloud获取设备详细信息
+    fog2 = api.require('fog2');
+    getDeviceInfo();
+}
+
+$('.header-left').click(function() {
+    api.closeWin();
+});
+
+var mqttmessage = new Vue({
+    el: '#mqttmessageid',
+    data: {
+        message: '信息展示'
+    }
+});
+
+function unbindDevice() {
+
+    var r = confirm("真的要解绑？");
+    if (r == true) {
+        // apicloud解绑设备
+        var param = {
+            deviceid: deviceid,
+            token: $api.getStorage(_TOKEN)
+        };
+        fog2.unBindDevice(param, function(ret, err) {
+            if (ret) {
+                toast(JSON.stringify(ret));
+                mqttmessage.message=JSON.stringify(ret);
+            } else{
+                mqttmessage.message=JSON.stringify(err)
+            }
+        });
+    }
+}
+
+function getDeviceInfo() {
+    var param = {
+        deviceid: deviceid,
+        token: $api.getStorage(_TOKEN)
+    };
+    fog2.getDeviceInfo(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+            $("#device_name").text(ret.data.alias);
+            $("#isonlineorid").text(ret.data.online ? "在线" : "离线");
+            devicepw = ret.data.devicepw;
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+//修改设备名称
+function updateDeviceAlias() {
+    var param = {
+        deviceid: deviceid,
+        devicename: "好风尚",
+        token: $api.getStorage(_TOKEN)
+    };
+    fog2.updateDeviceAlias(param, function (ret, err) {
+        if (ret){
+            alert(JSON.stringify(ret));
+        }else{
+            alert(JSON.stringify(err));
+        }
+    });
+}
+
+//获取分享码
+function getShareVerCode() {
+    var param = {
+        deviceid: deviceid,
+        token: $api.getStorage(_TOKEN)
+    };
+    fog2.getShareVerCode(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+            bindvercode = ret.vercode;
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+function addDeviceVercode() {
+    var token = $api.getStorage(_TOKEN);
+
+    var param = {
+        deviceid: 'aa2dde14-0b8d-11e6-a739-00163e0204c0',
+        devicepw: '2428',
+        bindvercode: '5a0d893e-95da-11e6-9d95-00163e103941',
+        role: 2,
+        bindingtype: "home",
+        token: token
+    };
+    fog2.addDeviceByVerCode(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+$('#startListenDevice_id').click(function() {
+    var tag = $(this).attr('tag');
+    if ("start" == tag) {
+        var password = window.prompt("需要验证登录密码", "")
+
+        if (password != "" && null != password) {
+            $(this).text('断开连接');
+            $(this).attr("tag", "stop").css("background-color", "#f35d4f");
+            $('.ctrl-btn-twobox').css("display", "flex");
+
+            startListenDevice(password);
+        } else {
+            toast("密码一定要写的");
+        }
+
+    } else {
+        $(this).text('连接设备');
+        $(this).attr("tag", "start").css("background-color", "#1ca0f1");
+        $('.ctrl-btn-twobox').css("display", "none");
+        stopListenDevice();
+    }
+});
+
+$('#addDeviceListener_id').click(function() {
+    var tag = $(this).attr('tag');
+    if ("start" == tag) {
+        $(this).text('移除订阅');
+        $(this).attr("tag", "stop").css("background-color", "#f35d4f");
+        addDeviceListener();
+    } else {
+        $(this).text('增加订阅');
+        $(this).attr("tag", "start").css("background-color", "#1ca0f1");
+        removeDeviceListener();
+    }
+});
+
+var sendNo = 0;
+$('#sendCommand_id').click(function() {
+    $(this).text('发送指令 ' + sendNo++);
+    sendCommand();
+});
+
+$('#createScheduleTask_id').click(function(event) {
+    createScheduleTask();
+});
+$('#createDelayTask_id').click(function(event) {
+    createDelayTask();
+});
+
+$('#getTaskList_id').click(function(event) {
+    getTaskList();
+});
+$('#removeTask_id').click(function(event) {
+    deleteTask();
+});
+$('#updateScheduleTask_id').click(function(event) {
+    updateScheduleTask();
+});
+$('#updateDelayTask_id').click(function(event) {
+    updateDelayTask();
+});
+
+$('#getMemberList_id').click(function(event) {
+    getMemberList();
+});
+$('#removeBindRole_id').click(function(event) {
+    removeBindRole();
+});
+
+function getMemberList() {
+    var param = {
+        deviceid: deviceid,
+        token: $api.getStorage(_TOKEN)
+    };
+    fog2.getMemberList(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+function removeBindRole() {
+    var enduserid = "b861bc595da-11e6-9d95-00163e103941";
+    var param = {
+        deviceid: deviceid,
+        enduserid: enduserid,
+        token: $api.getStorage(_TOKEN)
+    };
+    fog2.removeBindRole(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+function startListenDevice(password) {
+
+    var host = "v2.fogcloud.io";
+    var port = "8443";
+    var username = $api.getStorage(_CLIENTID);
+
+    var param = {
+        host: host,
+        port: port,
+        username: username,
+        password: password,
+        deviceid: deviceid,
+        clientid: username,
+        isencrypt:true
+    };
+    fog2.startListenDevice(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+function sendCommand() {
+    var param = {
+        deviceid: deviceid,
+        devicepw: devicepw,
+        command: '{"WF":{"value":"-1"},"appid":"5cdb7ebc-32bd-11e6-a739-00163e0204c0","deviceid":"413fad58-959c-11e6-950f-024c7633358d","userid":"6c72d6ce-91cf-11e6-950f-024c7633358d"}',
+        token: $api.getStorage(_TOKEN)
+    };
+    fog2.sendCommand(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+function stopListenDevice() {
+    fog2.stopListenDevice(function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+function addDeviceListener() {
+    var param = {
+        topic: "d2c/" + deviceid + "/status",
+        qos: 5
+    };
+    fog2.addDeviceListener(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+function removeDeviceListener() {
+    var param = {
+        topic: "d2c/" + deviceid + "/status"
+    };
+    fog2.removeDeviceListener(param, function(ret, err) {
+        if (ret) {
+            mqttmessage.message=JSON.stringify(ret);
+        } else {
+            mqttmessage.message=JSON.stringify(err)
+        }
+    });
+}
+
+// function createScheduleTask() {
+//     // var command = '{"KG_Bottom":"1","KG_Start":"1","KG_Top":"1","Temp_Bottom":"240","Temp_Top":"240","WorkMode":"1","WorkTime":"58","appid":"d8cdf9c6-de8c-11e5-a739-00163e0204c0","deviceid":"d95366fe-06c0-11e6-a739-00163e0204c0","userid":"b8b917e2-deaa-11e5-a739-00163e0204c0","atrrSet":["KG_Bottom","KG_Start","KG_Top","Temp_Bottom","Temp_Top","WorkMode","WorkTime"]}';
+
+//     var command = '{"KG_Start":"1","WorkMode":"1"}';
+
+//     var param = {
+//         deviceid: deviceid,
+//         command: command,
+//         enable: true,
+//         month: "*",
+//         dayofmonth: "*",
+//         dayofweek: "*",
+//         hour: "*",
+//         minute: "*",
+//         token: $api.getStorage(_TOKEN)
+//     };
+//     fog2.createScheduleTask(param, function(ret, err) {
+//         if (ret) {
+//             //console.log(JSON.stringify(ret));
+//             mqttmessage.message=JSON.stringify(ret);
+//         } else {
+//             //console.log(JSON.stringify(err));
+//             mqttmessage.message=JSON.stringify(err)
+//         }
+//     });
+// }
+
+// function createDelayTask() {
+//     // var command = '{"KG_Bottom":"1","KG_Start":"1","KG_Top":"1","Temp_Bottom":"240","Temp_Top":"240","WorkMode":"1","WorkTime":"58","appid":"d8cdf9c6-de8c-11e5-a739-00163e0204c0","deviceid":"d95366fe-06c0-11e6-a739-00163e0204c0","userid":"b8b917e2-deaa-11e5-a739-00163e0204c0","atrrSet":["KG_Bottom","KG_Start","KG_Top","Temp_Bottom","Temp_Top","WorkMode","WorkTime"]}';
+
+//     var command = '{"KG_Start":"1","WorkMode":"1"}';
+
+//     var param = {
+//         deviceid: deviceid,
+//         command: command,
+//         enable: true,
+//         second: 61,
+//         token: $api.getStorage(_TOKEN)
+//     };
+//     fog2.createDelayTask(param, function(ret, err) {
+//         if (ret) {
+//             //console.log(JSON.stringify(ret));
+//             mqttmessage.message=JSON.stringify(ret);
+//         } else {
+//             //console.log(JSON.stringify(err));
+//             mqttmessage.message=JSON.stringify(err)
+//         }
+//     });
+// }
+
+// function getTaskList() {
+//     var param = {
+//         deviceid: deviceid,
+//         tasktype: 1,
+//         token: $api.getStorage(_TOKEN)
+//     };
+//     fog2.getTaskList(param, function(ret, err) {
+//         if (ret) {
+//             //console.log(JSON.stringify(ret));
+//             mqttmessage.message=JSON.stringify(ret);
+//         } else {
+//             //console.log(JSON.stringify(err));
+//             mqttmessage.message=JSON.stringify(err)
+//         }
+//     });
+// }
+
+// function deleteTask() {
+//     var param = {
+//         deviceid: deviceid,
+//         taskid: "8b95b17c-20bc-11e6-a739-00163e0204c0",
+//         token: $api.getStorage(_TOKEN)
+//     };
+//     fog2.deleteTask(param, function(ret, err) {
+//         if (ret) {
+//             //console.log(JSON.stringify(ret));
+//             mqttmessage.message=JSON.stringify(ret);
+//         } else {
+//             //console.log(JSON.stringify(err));
+//             mqttmessage.message=JSON.stringify(err)
+//         }
+//     });
+
+// }
+
+// function updateScheduleTask() {
+//     var command = "{\"KG_Start\":\"44\",\"WorkMode\":\"55\"}";
+//     var taskid = "412ab16e-20b7-11e6-a739-00163e0204c0";
+
+//     var param = {
+//         deviceid: deviceid,
+//         taskid: taskid,
+//         command: command,
+//         enable: false,
+//         month: "*",
+//         dayofmonth: "*",
+//         dayofweek: "*",
+//         hour: "*",
+//         minute: "*",
+//         token: $api.getStorage(_TOKEN)
+//     };
+//     fog2.updateScheduleTask(param, function(ret, err) {
+//         if (ret) {
+//             //console.log(JSON.stringify(ret));
+//             mqttmessage.message=JSON.stringify(ret);
+//         } else {
+//             //console.log(JSON.stringify(err));
+//             mqttmessage.message=JSON.stringify(err)
+//         }
+//     });
+// }
+
+// function updateDelayTask() {
+//     var command = "{\"KG_Start\":\"44\",\"WorkMode\":\"55\"}";
+//     var taskid = "5af8bb16-20b4-11e6-a739-00163e0204c0";
+
+//     var param = {
+//         deviceid: deviceid,
+//         taskid: taskid,
+//         command: command,
+//         enable: false,
+//         second: 65,
+//         token: $api.getStorage(_TOKEN)
+//     };
+//     fog2.updateDelayTask(param, function(ret, err) {
+//         if (ret) {
+//             //console.log(JSON.stringify(ret));
+//             mqttmessage.message=JSON.stringify(ret);
+//         } else {
+//             //console.log(JSON.stringify(err));
+//             mqttmessage.message=JSON.stringify(err)
+//         }
+//     });
+// }
+</script>
+
+</html>

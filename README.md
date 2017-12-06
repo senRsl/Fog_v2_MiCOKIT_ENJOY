@@ -523,6 +523,609 @@ Hello World 终于调通了......
 新发现流程:
 调开关,按RESET键,就起作用了....
 
+然后调总动员的设备端.....
+一开始用的mico new方式,一直编译错误......
+
+昨天mi6陶瓷终于到了
+
+今天搜了下,又在阿里上搜到了动员的项目.....
+
+试了下,竟然编译通过了....
+
+<pre><code>
+(venv) senrsl@senrsl-T540p:~/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY/helloworld$ mico make FOG_V2.application.fog_v2_micokit_enjoy@MK3165 total download
+Building Bootloader...
+Finished Building Bootloader
+
+
+                        MICO MEMORY MAP                            
+|=================================================================|
+| MODULE                                   | ROM       | RAM      |
+|=================================================================|
+| App_fog_v2_micokit_enjoy                 | 10752     | 44       |
+| aws.Cortex-M4.GCC.release                | 20        | 4        |
+| Board_MK3165                             | 1284      | 124      |
+| FreeRTOS                                 | 6008      | 436      |
+| GCC                                      | 204       | 20       |
+| libc                                     | 42707     | 2268     |
+| libgcc                                   | 4872      | 0        |
+| Lib_dc_motor_MK3165                      | 30        | 0        |
+| Lib_fog_v2                               | 43712     | 222      |
+| Lib_gpio_button_MK3165                   | 224       | 200      |
+| Lib_JSON_C                               | 6824      | 12       |
+| Lib_MiCOKit_EXT_MK3165                   | 243       | 1        |
+| Lib_MiCO_Kernel                          | 12        | 12       |
+| Lib_MiCO_System                          | 24697     | 445      |
+| Lib_MiCO_System_QC                       | 1015      | 16       |
+| Lib_mqtt_client_c                        | 4835      | 4        |
+| Lib_RGB_P9813_MK3165                     | 812       | 0        |
+| Lib_SPI_Flash_Library_MK3165             | 904       | 0        |
+| Lib_Utilities                            | 8295      | 0        |
+| Lib_VGM128064_MK3165                     | 134       | 0        |
+| Lib_wolfSSL.Cortex-M4.GCC.release        | 145794    | 132      |
+| LwIP                                     | 116       | 0        |
+| MiCO.3165.GCC                            | 107511    | 6857     |
+| MiCO_FreeRTOS_Interface                  | 3158      | 40       |
+| Sensor_APDS9930_MK3165                   | 1091      | 6        |
+| Sensor_BME280_MK3165                     | 2516      | 70       |
+| Sensor_DHT11_MK3165                      | 328       | 0        |
+| Sensor_Infrared_Reflective_MK3165        | 58        | 0        |
+| Sensor_Light_adc_MK3165                  | 58        | 0        |
+| STM32F4xx                                | 6402      | 2215     |
+| STM32F4xx_Peripheral_Drivers             | 11150     | 252      |
+| STM32F4xx_Peripheral_Libraries           | 6108      | 16       |
+| *fill*                                   | 355       | 924      |
+|=================================================================|
+| TOTAL (bytes)                            | 442229    | 14320    |
+|=================================================================|
+Generate Standard Flash Images: ./build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/binary/FOG_V2.application.fog_v2_micokit_enjoy@MK3165.all.bin
+Segmentation fault (core dumped)
+make: *** [main_app] 错误 139
+(venv) senrsl@senrsl-T540p:~/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY/helloworld$ mico make FOG_V2.application.fog_v2_micokit_enjoy@MK3165 total
+Building Bootloader...
+Finished Building Bootloader
+
+
+                        MICO MEMORY MAP                            
+|=================================================================|
+| MODULE                                   | ROM       | RAM      |
+|=================================================================|
+| App_fog_v2_micokit_enjoy                 | 10752     | 44       |
+| aws.Cortex-M4.GCC.release                | 20        | 4        |
+| Board_MK3165                             | 1284      | 124      |
+| FreeRTOS                                 | 6008      | 436      |
+| GCC                                      | 204       | 20       |
+| libc                                     | 42707     | 2268     |
+| libgcc                                   | 4872      | 0        |
+| Lib_dc_motor_MK3165                      | 30        | 0        |
+| Lib_fog_v2                               | 43712     | 222      |
+| Lib_gpio_button_MK3165                   | 224       | 200      |
+| Lib_JSON_C                               | 6824      | 12       |
+| Lib_MiCOKit_EXT_MK3165                   | 243       | 1        |
+| Lib_MiCO_Kernel                          | 12        | 12       |
+| Lib_MiCO_System                          | 24697     | 445      |
+| Lib_MiCO_System_QC                       | 1015      | 16       |
+| Lib_mqtt_client_c                        | 4835      | 4        |
+| Lib_RGB_P9813_MK3165                     | 812       | 0        |
+| Lib_SPI_Flash_Library_MK3165             | 904       | 0        |
+| Lib_Utilities                            | 8295      | 0        |
+| Lib_VGM128064_MK3165                     | 134       | 0        |
+| Lib_wolfSSL.Cortex-M4.GCC.release        | 145794    | 132      |
+| LwIP                                     | 116       | 0        |
+| MiCO.3165.GCC                            | 107511    | 6857     |
+| MiCO_FreeRTOS_Interface                  | 3158      | 40       |
+| Sensor_APDS9930_MK3165                   | 1091      | 6        |
+| Sensor_BME280_MK3165                     | 2516      | 70       |
+| Sensor_DHT11_MK3165                      | 328       | 0        |
+| Sensor_Infrared_Reflective_MK3165        | 58        | 0        |
+| Sensor_Light_adc_MK3165                  | 58        | 0        |
+| STM32F4xx                                | 6402      | 2215     |
+| STM32F4xx_Peripheral_Drivers             | 11150     | 252      |
+| STM32F4xx_Peripheral_Libraries           | 6108      | 16       |
+| *fill*                                   | 355       | 924      |
+|=================================================================|
+| TOTAL (bytes)                            | 442229    | 14320    |
+|=================================================================|
+Generate Standard Flash Images: ./build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/binary/FOG_V2.application.fog_v2_micokit_enjoy@MK3165.all.bin
+Build complete
+Making .gdbinit
+Making .openocd_cfg
+(venv) senrsl@senrsl-T540p:~/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY/helloworld$ mico make FOG_V2.application.fog_v2_micokit_enjoy@MK3165 download run
+Skipping building bootloader due to "total" is not set
+
+
+                        MICO MEMORY MAP                            
+|=================================================================|
+| MODULE                                   | ROM       | RAM      |
+|=================================================================|
+| App_fog_v2_micokit_enjoy                 | 10752     | 44       |
+| aws.Cortex-M4.GCC.release                | 20        | 4        |
+| Board_MK3165                             | 1284      | 124      |
+| FreeRTOS                                 | 6008      | 436      |
+| GCC                                      | 204       | 20       |
+| libc                                     | 42707     | 2268     |
+| libgcc                                   | 4872      | 0        |
+| Lib_dc_motor_MK3165                      | 30        | 0        |
+| Lib_fog_v2                               | 43712     | 222      |
+| Lib_gpio_button_MK3165                   | 224       | 200      |
+| Lib_JSON_C                               | 6824      | 12       |
+| Lib_MiCOKit_EXT_MK3165                   | 243       | 1        |
+| Lib_MiCO_Kernel                          | 12        | 12       |
+| Lib_MiCO_System                          | 24697     | 445      |
+| Lib_MiCO_System_QC                       | 1015      | 16       |
+| Lib_mqtt_client_c                        | 4835      | 4        |
+| Lib_RGB_P9813_MK3165                     | 812       | 0        |
+| Lib_SPI_Flash_Library_MK3165             | 904       | 0        |
+| Lib_Utilities                            | 8295      | 0        |
+| Lib_VGM128064_MK3165                     | 134       | 0        |
+| Lib_wolfSSL.Cortex-M4.GCC.release        | 145794    | 132      |
+| LwIP                                     | 116       | 0        |
+| MiCO.3165.GCC                            | 107511    | 6857     |
+| MiCO_FreeRTOS_Interface                  | 3158      | 40       |
+| Sensor_APDS9930_MK3165                   | 1091      | 6        |
+| Sensor_BME280_MK3165                     | 2516      | 70       |
+| Sensor_DHT11_MK3165                      | 328       | 0        |
+| Sensor_Infrared_Reflective_MK3165        | 58        | 0        |
+| Sensor_Light_adc_MK3165                  | 58        | 0        |
+| STM32F4xx                                | 6402      | 2215     |
+| STM32F4xx_Peripheral_Drivers             | 11150     | 252      |
+| STM32F4xx_Peripheral_Libraries           | 6108      | 16       |
+| *fill*                                   | 355       | 924      |
+|=================================================================|
+| TOTAL (bytes)                            | 442229    | 14320    |
+|=================================================================|
+Downloading Bootloader ...
+Skipping download bootloader due to "total" is not set
+
+Downloading application to partition: 2 size: 445440 bytes...
+Download complete
+
+Resetting target
+Target running
+Build complete
+Making .gdbinit
+Making .openocd_cfg
+(venv) senrsl@senrsl-T540p:~/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY/helloworld$ 
+</code></pre>
+流程是这样的....
+先去helloworld里面,加Fog_V2,然后再编.......
+
+以前新建项目来编都是报这个:
+<pre><code>
+mico-os/MiCO/system/mico_system_init.c: In function 'mico_system_init':
+mico-os/MiCO/system/mico_system_init.c:88:31: error: #if with no expression
+ #if MICO_SYSTEM_MONITOR_ENABLE
+                               ^
+mico-os/MiCO/system/mico_system_init.c:99:20: error: #if with no expression
+ #if MICO_CLI_ENABLE
+                    ^
+mico-os/MiCO/system/mico_system_init.c:108:32: error: #if with no expression
+ #if MICO_WLAN_CONNECTION_ENABLE
+                                ^
+mico-os/MiCO/system/mico_system_init.c:149:33: error: #if with no expression
+ #if MICO_SYSTEM_DISCOVERY_ENABLE
+                                 ^
+mico-os/MiCO/system/mico_system_init.c:154:30: error: #if with no expression
+ #if MICO_CONFIG_SERVER_ENABLE
+                              ^
+make[1]: *** [build/os.os_thread@MK3165/Modules/mico-os/MiCO/system/mico_system_init.o] 错误 1
+make[1]: *** 正在等待未完成的任务....
+make: *** [main_app] 错误 2
+(venv) senrsl@senrsl-T540p:~/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY/mico-demos$ 
+</code></pre>
+现在的流程是这样:
+<pre><code>
+(venv) senrsl@senrsl-T540p:~/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY$ cd helloworld
+(venv) senrsl@senrsl-T540p:~/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY/helloworld$ mico add git@code.aliyun.com:dcjz/FOG_V2.git
+[mico] WARNING: Program "helloworld" in "/home/senrsl/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY/helloworld" does not use source control management.
+[mico] WARNING: To fix this you should use "mico new ." in the root of your program.
+---
+[mico] Adding component "FOG_V2" from "git@code.aliyun.com:dcjz/FOG_V2.git" at latest revision in the current branch
+[mico] Updating reference "FOG_V2" -> "https://code.aliyun.com/dcjz/FOG_V2.git/#97125c96eea4ad4ac48fac13eb78f3672cad7638"
+(venv) senrsl@senrsl-T540p:~/test/iot/MicoKit3165/Fog_v2_MiCOKIT_ENJOY/helloworld$ mico make FOG_V2.application.fog_v2_micokit_enjoy@MK3165
+Making config file for first time
+processing components: FOG_V2.application.fog_v2_micokit_enjoy MK3165 FreeRTOS LwIP wolfSSL MiCO
+MiCO core based on pre-build library: ===MiCO.3165.GCC.a=== 
+Skipping building bootloader due to "total" is not set
+
+Compiling App_fog_v2_micokit_enjoy
+Compiling Board_MK3165
+Compiling FreeRTOS
+Compiling LwIP
+Compiling Lib_SPI_Flash_Library_MK3165
+Compiling Lib_MiCOKit_EXT_MK3165
+Compiling MiCO_FreeRTOS_Interface
+Compiling Lib_MiCO_Kernel
+Compiling Lib_MiCO_System
+Compiling Lib_MiCO_Security
+Compiling Lib_Utilities
+Compiling STM32F4xx
+Compiling Lib_fog_v2
+FOG_V2/lib/fog_v2/fog_bonjour/fog_bonjour.c: In function 'start_fog_bonjour':
+FOG_V2/lib/fog_v2/fog_bonjour/fog_bonjour.c:117:5: warning: implicit declaration of function 'mico_system_get_status_wlan' [-Wimplicit-function-declaration]
+     mico_system_get_status_wlan( &wlan_status );
+     ^
+FOG_V2/lib/fog_v2/fog_ota/url.c:12:19: fatal error: Debug.h: No such file or directory
+compilation terminated.
+make[1]: *** [build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/Modules//FOG_V2/lib/fog_v2/fog_ota/url.o] 错误 1
+make[1]: *** 正在等待未完成的任务....
+make: *** [main_app] 错误 2
+</code></pre>
+
+这个Debug.h找不到,直接注释掉,竟然能编成功....
+
+然后就是上面那样,编成功了.....
+
+但是编译total不成功.....
+
+在win7上布了一套,发现
+
+<pre><code>
+E:\iot\helloworld>mico make helloworld@MK3165 total download run
+Building Bootloader...
+Finished Building Bootloader
+
+
+                        MICO MEMORY MAP
+|=================================================================|
+| MODULE                                   | ROM       | RAM      |
+|=================================================================|
+| App_Helloworld                           | 141       | 0        |
+| aws.Cortex-M4.GCC.release                | 20        | 4        |
+| Board_MK3165                             | 1192      | 120      |
+| FreeRTOS                                 | 5968      | 432      |
+| GCC                                      | 204       | 20       |
+| libc                                     | 42755     | 2268     |
+| libgcc                                   | 4636      | 0        |
+| Lib_gpio_button_MK3165                   | 224       | 200      |
+| Lib_JSON_C                               | 6762      | 12       |
+| Lib_MiCO_Kernel                          | 12        | 12       |
+| Lib_MiCO_System                          | 31518     | 487      |
+| Lib_MiCO_System_QC                       | 1015      | 16       |
+| Lib_SPI_Flash_Library_MK3165             | 942       | 0        |
+| Lib_Utilities                            | 9027      | 0        |
+| Lib_wolfSSL.Cortex-M4.GCC.release        | 14867     | 8        |
+| LwIP                                     | 112       | 0        |
+| MiCO.3165.GCC                            | 106403    | 6857     |
+| MiCO_FreeRTOS_Interface                  | 3003      | 40       |
+| STM32F4xx                                | 5648      | 2215     |
+| STM32F4xx_Peripheral_Drivers             | 9444      | 252      |
+| STM32F4xx_Peripheral_Libraries           | 5410      | 16       |
+| *fill*                                   | 238       | 925      |
+|=================================================================|
+| TOTAL (bytes)                            | 249541    | 13884    |
+|=================================================================|
+Generate Standard Flash Images: ./build/helloworld@MK3165/binary/helloworld@MK31
+65.all.bin
+Downloading bootloader to partition: 1 size: 26636 bytes...
+Download complete
+
+Downloading application to partition: 2 size: 252440 bytes...
+Download complete
+
+Downloading WIFI_FIRMWARE to partition: 4 size: 215172 bytes...
+Download complete
+
+Resetting target
+Target running
+Build complete
+Making .gdbinit
+Making .openocd_cfg
+
+E:\iot\helloworld>
+</code></pre>
+
+直接就能编成功,而且在application模式就能烧,烧完直接能run........
+
+靠
+
+连Debug.h都能找到........
+
+<pre><code>
+E:\iot\helloworld>mico make FOG_V2.application.fog_v2_micokit_enjoy@MK3165 total
+ download run
+Making config file for first time
+processing components: FOG_V2.application.fog_v2_micokit_enjoy MK3165 FreeRTOS L
+wIP wolfSSL MiCO
+MiCO core based on pre-build library: ===MiCO.3165.GCC.a===
+Building Bootloader...
+Finished Building Bootloader
+
+Compiling App_fog_v2_micokit_enjoy
+Compiling Board_MK3165
+Compiling FreeRTOS
+Compiling LwIP
+Compiling Lib_SPI_Flash_Library_MK3165
+Compiling Lib_MiCOKit_EXT_MK3165
+Compiling MiCO_FreeRTOS_Interface
+Compiling Lib_MiCO_Kernel
+Compiling Lib_MiCO_System
+Compiling Lib_MiCO_Security
+Compiling Lib_Utilities
+Compiling STM32F4xx
+Compiling Lib_fog_v2
+FOG_V2/lib/fog_v2/fog_bonjour/fog_bonjour.c: In function 'start_fog_bonjour':
+FOG_V2/lib/fog_v2/fog_bonjour/fog_bonjour.c:117:5: warning: implicit declaration
+ of function 'mico_system_get_status_wlan' [-Wimplicit-function-declaration]
+     mico_system_get_status_wlan( &wlan_status );
+     ^
+Compiling Lib_VGM128064_MK3165
+Compiling Lib_gpio_button_MK3165
+Compiling Lib_dc_motor_MK3165
+Compiling Lib_RGB_P9813_MK3165
+Compiling Sensor_BME280_MK3165
+Compiling Sensor_DHT11_MK3165
+Compiling Sensor_APDS9930_MK3165
+Compiling Sensor_Light_adc_MK3165
+Compiling Sensor_Infrared_Reflective_MK3165
+Compiling Lib_MiCO_System_QC
+Compiling Lib_JSON_C
+Compiling GCC
+Compiling STM32F4xx_Peripheral_Drivers
+Compiling Lib_mqtt_client_c
+Compiling Lib_MFi_Auth_MK3165
+Compiling STM32F4xx_Peripheral_Libraries
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/App_fog_v2
+_micokit_enjoy.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Board_MK31
+65.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/FreeRTOS.a
+
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/LwIP.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_SPI_Fl
+ash_Library_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_MiCOKi
+t_EXT_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/MiCO_FreeR
+TOS_Interface.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_MiCO_K
+ernel.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_MiCO_S
+ystem.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_MiCO_S
+ecurity.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_Utilit
+ies.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/STM32F4xx.
+a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_fog_v2
+.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_VGM128
+064_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_gpio_b
+utton_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_dc_mot
+or_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_RGB_P9
+813_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Sensor_BME
+280_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Sensor_DHT
+11_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Sensor_APD
+S9930_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Sensor_Lig
+ht_adc_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Sensor_Inf
+rared_Reflective_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_MiCO_S
+ystem_QC.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_JSON_C
+.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/GCC.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/STM32F4xx_
+Peripheral_Drivers.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_mqtt_c
+lient_c.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/Lib_MFi_Au
+th_MK3165.a
+Making build/FOG_V2.application.fog_v2_micokit_enjoy@MK3165/libraries/STM32F4xx_
+Peripheral_Libraries.a
+Making FOG_V2.application.fog_v2_micokit_enjoy@MK3165.elf
+
+Making FOG_V2.application.fog_v2_micokit_enjoy@MK3165.bin
+Making FOG_V2.application.fog_v2_micokit_enjoy@MK3165.hex
+
+                        MICO MEMORY MAP
+|=================================================================|
+| MODULE                                   | ROM       | RAM      |
+|=================================================================|
+| App_fog_v2_micokit_enjoy                 | 10752     | 44       |
+| aws.Cortex-M4.GCC.release                | 20        | 4        |
+| Board_MK3165                             | 1284      | 124      |
+| FreeRTOS                                 | 6008      | 436      |
+| GCC                                      | 204       | 20       |
+| libc                                     | 42707     | 2268     |
+| libgcc                                   | 4872      | 0        |
+| Lib_dc_motor_MK3165                      | 30        | 0        |
+| Lib_fog_v2                               | 43712     | 222      |
+| Lib_gpio_button_MK3165                   | 224       | 200      |
+| Lib_JSON_C                               | 6824      | 12       |
+| Lib_MiCOKit_EXT_MK3165                   | 243       | 1        |
+| Lib_MiCO_Kernel                          | 12        | 12       |
+| Lib_MiCO_System                          | 24697     | 445      |
+| Lib_MiCO_System_QC                       | 1015      | 16       |
+| Lib_mqtt_client_c                        | 4835      | 4        |
+| Lib_RGB_P9813_MK3165                     | 812       | 0        |
+| Lib_SPI_Flash_Library_MK3165             | 904       | 0        |
+| Lib_Utilities                            | 8295      | 0        |
+| Lib_VGM128064_MK3165                     | 134       | 0        |
+| Lib_wolfSSL.Cortex-M4.GCC.release        | 145794    | 132      |
+| LwIP                                     | 116       | 0        |
+| MiCO.3165.GCC                            | 107511    | 6857     |
+| MiCO_FreeRTOS_Interface                  | 3158      | 40       |
+| Sensor_APDS9930_MK3165                   | 1091      | 6        |
+| Sensor_BME280_MK3165                     | 2516      | 70       |
+| Sensor_DHT11_MK3165                      | 328       | 0        |
+| Sensor_Infrared_Reflective_MK3165        | 58        | 0        |
+| Sensor_Light_adc_MK3165                  | 58        | 0        |
+| STM32F4xx                                | 6402      | 2215     |
+| STM32F4xx_Peripheral_Drivers             | 11150     | 252      |
+| STM32F4xx_Peripheral_Libraries           | 6108      | 16       |
+| *fill*                                   | 355       | 924      |
+|=================================================================|
+| TOTAL (bytes)                            | 442229    | 14320    |
+|=================================================================|
+Generate Standard Flash Images: ./build/FOG_V2.application.fog_v2_micokit_enjoy@
+MK3165/binary/FOG_V2.application.fog_v2_micokit_enjoy@MK3165.all.bin
+Downloading bootloader to partition: 1 size: 26636 bytes...
+Download complete
+
+Downloading application to partition: 2 size: 445440 bytes...
+Download complete
+
+Downloading WIFI_FIRMWARE to partition: 4 size: 215172 bytes...
+Download complete
+
+Resetting target
+Target running
+Build complete
+Making .gdbinit
+Making .openocd_cfg
+
+E:\iot\helloworld>
+
+</code></pre>
+
+烧完扩展板屏幕不亮,app配网一直激活中.....
+
+默认:61aae77c-4fe3-11e7-9baf-00163e120d98
+应用:229ea688-d34e-11e7-b7ac-00163e30fc50
+产品:4b69faaed34e11e78d1700163e03b4d6
+v2产品:9de12c3a-bd37-11e7-9baf-00163e120d98
+
+妈蛋,产品ID竟然是 v2的.....
+
+网站上直接进控制台,创建的产品应用都不能用....
+然后看到了v2.fogcloud,去注册个,产品ID竟然通过了......
+
+
+
+3.0.0的版本扩展斑屏能亮,新版的屏不能亮.
+比对下生成的东西:
+
+新版的:
+                        MICO MEMORY MAP                            
+|=================================================================|
+| MODULE                                   | ROM       | RAM      |
+|=================================================================|
+| App_Helloworld                           | 146       | 0        |
+| aws.Cortex-M4.GCC.release                | 20        | 4        |
+| Board_MK3165                             | 1192      | 120      |
+| FreeRTOS                                 | 5968      | 432      |
+| GCC                                      | 204       | 20       |
+| libc                                     | 42755     | 2268     |
+| libgcc                                   | 4636      | 0        |
+| Lib_gpio_button_MK3165                   | 224       | 200      |
+| Lib_JSON_C                               | 6762      | 12       |
+| Lib_MiCO_Kernel                          | 12        | 12       |
+| Lib_MiCO_System                          | 31518     | 487      |
+| Lib_MiCO_System_QC                       | 1015      | 16       |
+| Lib_SPI_Flash_Library_MK3165             | 942       | 0        |
+| Lib_Utilities                            | 9027      | 0        |
+| Lib_wolfSSL.Cortex-M4.GCC.release        | 14867     | 8        |
+| LwIP                                     | 112       | 0        |
+| MiCO.3165.GCC                            | 106403    | 6857     |
+| MiCO_FreeRTOS_Interface                  | 3003      | 40       |
+| STM32F4xx                                | 5648      | 2215     |
+| STM32F4xx_Peripheral_Drivers             | 9444      | 252      |
+| STM32F4xx_Peripheral_Libraries           | 5410      | 16       |
+| *fill*                                   | 233       | 925      |
+|=================================================================|
+| TOTAL (bytes)                            | 249541    | 13884    |
+|=================================================================|
+
+3.0.0版本:
+helloworld@MK3165
+----------------------------------|---------|---------|
+                                  |         |  Static |
+              Module              |  Flash  |   RAM   |
+----------------------------------+---------+---------|
+App                               |     168 |       0 |
+Board                             |    1558 |     124 |
+dc_motor_MK3165                   |      30 |       0 |
+FreeRTOS                          |    5231 |     470 |
+gpio_button_MK3165                |     228 |     200 |
+Host MCU-family library           |   22222 |    2479 |
+Interrupt Vectors                 |    1446 |       0 |
+JSON_C                            |    6774 |      16 |
+libc                              |   46521 |    3088 |
+LwIP                              |     112 |       0 |
+MiCO_Kernel                       |  122740 |   28004 |
+MiCO_System                       |   27345 |     453 |
+MiCOKit_EXT_MK3165                |     431 |       8 |
+Other                             |    3513 |      88 |
+RAM Initialisation                |    2456 |       0 |
+RGB_P9813_MK3165                  |     146 |       0 |
+Sensor                            |    3865 |      76 |
+SPI_Flash_Library_MK3165          |     934 |       0 |
+Startup Stack & Link Script fill  |      14 |       2 |
+Utilities                         |    8679 |       0 |
+VGM128064_MK3165                  |    2268 |       0 |
+----------------------------------+---------+---------|
+TOTAL (bytes)                     |  254225 |   35008 |
+----------------------------------|---------|---------|
+
+这个应该是扩展板吧 MiCOKit_EXT_MK3165
+
+然后看demo的
+                        MICO MEMORY MAP                            
+|=================================================================|
+| MODULE                                   | ROM       | RAM      |
+|=================================================================|
+| App_fog_v2_micokit_enjoy                 | 10756     | 44       |
+| aws.Cortex-M4.GCC.release                | 20        | 4        |
+| Board_MK3165                             | 1284      | 124      |
+| FreeRTOS                                 | 6008      | 436      |
+| GCC                                      | 204       | 20       |
+| libc                                     | 42707     | 2268     |
+| libgcc                                   | 4872      | 0        |
+| Lib_dc_motor_MK3165                      | 30        | 0        |
+| Lib_fog_v2                               | 43712     | 222      |
+| Lib_gpio_button_MK3165                   | 224       | 200      |
+| Lib_JSON_C                               | 6824      | 12       |
+| Lib_MiCOKit_EXT_MK3165                   | 243       | 1        |
+| Lib_MiCO_Kernel                          | 12        | 12       |
+| Lib_MiCO_System                          | 24697     | 445      |
+| Lib_MiCO_System_QC                       | 1015      | 16       |
+| Lib_mqtt_client_c                        | 4835      | 4        |
+| Lib_RGB_P9813_MK3165                     | 812       | 0        |
+| Lib_SPI_Flash_Library_MK3165             | 904       | 0        |
+| Lib_Utilities                            | 8295      | 0        |
+| Lib_VGM128064_MK3165                     | 134       | 0        |
+| Lib_wolfSSL.Cortex-M4.GCC.release        | 145794    | 132      |
+| LwIP                                     | 116       | 0        |
+| MiCO.3165.GCC                            | 107511    | 6857     |
+| MiCO_FreeRTOS_Interface                  | 3158      | 40       |
+| Sensor_APDS9930_MK3165                   | 1091      | 6        |
+| Sensor_BME280_MK3165                     | 2516      | 70       |
+| Sensor_DHT11_MK3165                      | 328       | 0        |
+| Sensor_Infrared_Reflective_MK3165        | 58        | 0        |
+| Sensor_Light_adc_MK3165                  | 58        | 0        |
+| STM32F4xx                                | 6402      | 2215     |
+| STM32F4xx_Peripheral_Drivers             | 11150     | 252      |
+| STM32F4xx_Peripheral_Libraries           | 6108      | 16       |
+| *fill*                                   | 351       | 924      |
+|=================================================================|
+| TOTAL (bytes)                            | 442229    | 14320    |
+|=================================================================|
+
+
+我操
+发生了什么,调了会其他项目,一扭头屏幕竟然亮了.....
+app控制竟然好使了.....
+我操......
+调了俩星期......
+
+我操
+竟然是用MX3166烧成功的.....
+然后又把开关切刀MX3165,也是可以的.....
+然后apicloud生成的app,用自己生成的那个,也可以绑定并能控制了.......
+
+所以,最终的解决方案就是:
+mico-os库,每个branch,tag,挨个试,试到tag 3.5.1的时候成功了.......
+
+操
 
 
 
